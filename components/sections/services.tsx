@@ -1,7 +1,6 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 import { 
   Scale, 
@@ -11,6 +10,7 @@ import {
   Briefcase, 
   Shield 
 } from "lucide-react"
+import { ease, fadeInUp, staggerContainer, cardHover } from "@/lib/animations"
 
 const services = [
   {
@@ -50,13 +50,15 @@ export function Services() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="section-padding px-4 relative overflow-hidden" id="services">
+    <section ref={ref} className="section-padding px-4 relative overflow-hidden" id="services" aria-label="الخدمات">
+      {/* Background accent */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-br from-primary/[0.02] to-secondary/[0.02] blur-3xl pointer-events-none" />
+
       <div className="relative z-10 container mx-auto max-w-5xl">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease }}
           className="text-center mb-14"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-secondary/[0.06] border border-secondary/10 text-secondary text-sm mb-6">
@@ -70,33 +72,42 @@ export function Services() {
           </p>
         </motion.div>
 
-        {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
+        >
           {services.map((service, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 24 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 + index * 0.08 }}
+              variants={fadeInUp}
               className="group"
             >
-              <div className="bg-card rounded-2xl p-6 h-full border border-border/50 hover:border-primary/20 transition-all duration-300 hover:shadow-subtle">
-                {/* Icon */}
-                <div className="w-12 h-12 rounded-xl bg-primary/[0.08] flex items-center justify-center mb-5 group-hover:bg-primary/[0.12] transition-colors">
+              <motion.div
+                initial="rest"
+                whileHover="hover"
+                variants={cardHover}
+                className="bg-card rounded-2xl p-6 h-full border border-border/50 hover:border-primary/20 transition-colors duration-300"
+              >
+                <motion.div
+                  className="w-12 h-12 rounded-xl bg-primary/[0.08] flex items-center justify-center mb-5 group-hover:bg-primary/[0.12] transition-colors duration-300"
+                  whileHover={{ scale: 1.08 }}
+                  transition={{ duration: 0.2, ease }}
+                >
                   <service.icon className="w-6 h-6 text-primary" />
-                </div>
+                </motion.div>
 
-                {/* Content */}
                 <h3 className="text-lg font-semibold mb-2 text-foreground">
                   {service.title}
                 </h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">
                   {service.description}
                 </p>
-              </div>
+              </motion.div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

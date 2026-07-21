@@ -7,12 +7,14 @@ const tajawal = Tajawal({
   subsets: ["arabic", "latin"],
   weight: ["200", "300", "400", "500", "700", "800", "900"],
   variable: "--font-tajawal",
+  display: "swap",
 })
 
 const amiri = Amiri({
   subsets: ["arabic", "latin"],
   weight: ["400", "700"],
   variable: "--font-amiri",
+  display: "swap",
 })
 
 export const metadata: Metadata = {
@@ -44,7 +46,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar" dir="rtl" className="scroll-smooth">
       <body className={`${tajawal.variable} ${amiri.variable} font-sans antialiased`}>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}

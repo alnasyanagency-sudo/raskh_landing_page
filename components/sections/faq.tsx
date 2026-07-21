@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Plus, Minus } from "lucide-react"
+import { ease, fadeInUp, staggerContainer } from "@/lib/animations"
 
 const faqs = [
   {
@@ -34,15 +35,21 @@ const faqs = [
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
+  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault()
+      setOpenIndex(openIndex === index ? null : index)
+    }
+  }
+
   return (
-    <section id="faq" className="section-padding bg-muted/30">
+    <section id="faq" className="section-padding bg-muted/30" aria-label="الأسئلة الشائعة">
       <div className="container mx-auto max-w-3xl px-4">
-        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5, ease }}
           className="text-center mb-14"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
@@ -56,15 +63,17 @@ export function FAQ() {
           </p>
         </motion.div>
 
-        {/* FAQ Items */}
-        <div className="space-y-3">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="space-y-3"
+        >
           {faqs.map((faq, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.08 }}
+              variants={fadeInUp}
             >
               <div
                 className={`bg-card rounded-2xl border transition-all duration-300 overflow-hidden ${
@@ -75,7 +84,10 @@ export function FAQ() {
               >
                 <button
                   onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
                   className="w-full flex items-center justify-between gap-4 p-5 text-right"
+                  aria-expanded={openIndex === index}
+                  aria-controls={`faq-answer-${index}`}
                 >
                   <span className="text-base font-semibold text-foreground leading-relaxed">
                     {faq.question}
@@ -83,7 +95,7 @@ export function FAQ() {
                   <span
                     className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
                       openIndex === index
-                        ? "bg-primary text-primary-foreground rotate-0"
+                        ? "bg-primary text-primary-foreground"
                         : "bg-muted text-muted-foreground"
                     }`}
                   >
@@ -98,12 +110,13 @@ export function FAQ() {
                 <AnimatePresence initial={false}>
                   {openIndex === index && (
                     <motion.div
+                      key="answer"
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
                     >
-                      <div className="px-5 pb-5 pt-0">
+                      <div className="px-5 pb-5 pt-0" id={`faq-answer-${index}`} role="region">
                         <p className="text-muted-foreground leading-relaxed text-[15px]">
                           {faq.answer}
                         </p>
@@ -114,7 +127,7 @@ export function FAQ() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

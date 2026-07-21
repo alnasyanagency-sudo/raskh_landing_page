@@ -4,22 +4,16 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Rasikh Legal - Premium Light Theme */
   --background: oklch(0.985 0.002 90);
   --foreground: oklch(0.18 0.02 260);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.18 0.02 260);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0.02 260);
-  
-  /* Gold Primary - #B29569 (elegant accent) */
   --primary: oklch(0.68 0.08 75);
   --primary-foreground: oklch(1 0 0);
-  
-  /* Deep Green Secondary - #1C3522 (CTAs) */
   --secondary: oklch(0.25 0.06 145);
   --secondary-foreground: oklch(0.98 0 0);
-  
   --muted: oklch(0.96 0.005 90);
   --muted-foreground: oklch(0.45 0.02 260);
   --accent: oklch(0.96 0.01 75);
@@ -29,12 +23,9 @@
   --border: oklch(0.92 0.005 90);
   --input: oklch(0.96 0.005 90);
   --ring: oklch(0.68 0.08 75);
-  
-  /* Subtle glass for light theme */
   --glass: oklch(1 0 0 / 0.8);
   --glass-border: oklch(0.92 0.005 90);
   --glass-highlight: oklch(0.68 0.08 75 / 0.05);
-  
   --chart-1: oklch(0.68 0.08 75);
   --chart-2: oklch(0.25 0.06 145);
   --chart-3: oklch(0.55 0.06 75);
@@ -105,7 +96,7 @@
   }
 }
 
-/* Light glass effect */
+/* Glass effects */
 .glass-light {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(20px);
@@ -137,7 +128,7 @@
   background-clip: text;
 }
 
-/* Subtle shadow for cards */
+/* Shadow system */
 .shadow-soft {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 8px 32px rgba(0, 0, 0, 0.06);
 }
@@ -146,14 +137,28 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
+.shadow-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-card-hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 12px 40px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-elevated {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 16px 48px rgba(0, 0, 0, 0.08);
+}
+
 /* Phone mockup shadow */
 .phone-shadow {
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 12px 24px -8px rgba(0, 0, 0, 0.1);
 }
 
 /* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Custom scrollbar */
@@ -177,4 +182,19 @@ html {
 /* Section spacing */
 .section-padding {
   @apply py-20 md:py-28 lg:py-32;
+}
+
+/* Focus visible styles */
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary/50;
+}
+
+/* Text balance */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Prevent layout shift from scrollbar */
+html {
+  scrollbar-gutter: stable;
 }

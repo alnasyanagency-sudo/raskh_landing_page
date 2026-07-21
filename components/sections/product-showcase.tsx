@@ -1,9 +1,9 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { useInView } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { useRef } from "react"
 import Image from "next/image"
+import { ease, fadeInUp, staggerContainer } from "@/lib/animations"
 
 const showcases = [
   {
@@ -27,17 +27,15 @@ export function ProductShowcase() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="section-padding px-4 relative overflow-hidden" id="app">
-      {/* Subtle background accent */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-br from-primary/[0.02] to-secondary/[0.02] blur-3xl" />
+    <section ref={ref} className="section-padding px-4 relative overflow-hidden" id="app" aria-label="التطبيق">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-br from-primary/[0.02] to-secondary/[0.02] blur-3xl pointer-events-none" />
 
       <div className="relative z-10 container mx-auto max-w-5xl">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          transition={{ duration: 0.6, ease }}
+          className="text-center mb-16 md:mb-20"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-secondary/[0.06] border border-secondary/10 text-secondary text-sm mb-6">
             التطبيق
@@ -50,45 +48,42 @@ export function ProductShowcase() {
           </p>
         </motion.div>
 
-        {/* Showcase Items */}
-        <div className="space-y-24 md:space-y-32">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="space-y-20 md:space-y-28 lg:space-y-32"
+        >
           {showcases.map((showcase, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.2 + index * 0.15 }}
-              className={`grid lg:grid-cols-2 gap-12 lg:gap-16 items-center ${
-                index % 2 === 1 ? "lg:flex-row-reverse" : ""
+              variants={fadeInUp}
+              className={`grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center ${
+                index % 2 === 1 ? "" : ""
               }`}
             >
-              {/* Phone Mockup */}
               <motion.div
                 className={`relative flex justify-center ${index % 2 === 1 ? "lg:order-2" : ""}`}
-                whileInView={{ y: [10, -10, 10] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               >
-                <div className="relative w-[240px] md:w-[280px]">
+                <div className="relative w-[200px] sm:w-[240px] md:w-[280px]">
                   <Image
                     src={showcase.image}
                     alt={showcase.alt}
                     width={280}
                     height={571}
-                    className="w-full h-auto phone-shadow rounded-[2.5rem]"
+                    className="w-full h-auto phone-shadow rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem]"
                   />
                 </div>
               </motion.div>
 
-              {/* Content */}
               <div className={`text-center lg:text-right ${index % 2 === 1 ? "lg:order-1" : ""}`}>
-                <h3 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-foreground">
                   {showcase.title}
                 </h3>
-                <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-8 max-w-md mx-auto lg:mx-0">
                   {showcase.description}
                 </p>
-                
-                {/* Feature tags */}
+
                 <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                   {showcase.features.map((feature, i) => (
                     <span
@@ -102,7 +97,7 @@ export function ProductShowcase() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

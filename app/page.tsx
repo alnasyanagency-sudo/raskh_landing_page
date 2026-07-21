@@ -8,22 +8,26 @@ import { FAQ } from "@/components/sections/faq"
 import { WhatsappCTA } from "@/components/sections/whatsapp-cta"
 import { FinalCTA } from "@/components/sections/final-cta"
 import { Footer } from "@/components/sections/footer"
+import { Background } from "@/components/background"
 import { WhatsappFloat } from "@/components/whatsapp-float"
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background overflow-x-hidden">
-      <Header />
-      <Hero />
-      <Trust />
-      <Services />
-      <ProductShowcase />
-      <HowItWorks />
-      <FAQ />
-      <WhatsappCTA />
-      <FinalCTA />
-      <Footer />
-      <WhatsappFloat />
-    </main>
+    <>
+      <Background />
+      <main className="min-h-screen bg-background" role="main">
+        <Header />
+        <Hero />
+        <Trust />
+        <Services />
+        <ProductShowcase />
+        <HowItWorks />
+        <FAQ />
+        <WhatsappCTA />
+        <FinalCTA />
+        <Footer />
+        <WhatsappFloat />
+      </main>
+    </>
   )
 }

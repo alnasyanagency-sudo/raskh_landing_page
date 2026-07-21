@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import { ease, fadeInDown, staggerContainer } from "@/lib/animations"
 
 const navLinks = [
   { label: "الرئيسية", href: "#" },
@@ -22,64 +23,82 @@ export function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [isMobileMenuOpen])
 
   return (
     <>
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.5 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        transition={{ duration: 0.6, ease }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? "bg-background/80 backdrop-blur-lg border-b border-border/50 py-3"
+            ? "bg-background/80 backdrop-blur-xl border-b border-border/50 py-3 shadow-subtle"
             : "bg-transparent py-5"
         }`}
       >
-        <div className="container mx-auto max-w-5xl px-4">
+        <div className="container mx-auto max-w-5xl px-4 sm:px-6">
           <div className="flex items-center justify-between">
-            {/* Logo */}
-            <a href="#" className="flex items-center">
+            <a href="#" className="flex items-center shrink-0 focus-visible:outline-2 focus-visible:outline-primary/50 rounded-lg" aria-label="راسخ للمحاماة - الرئيسية">
               <Image
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%2014-esr839iLrsk7x6ot2exVaXlePpnLLi.png"
                 alt="راسخ للمحاماة"
                 width={100}
                 height={67}
                 className="h-10 w-auto"
+                priority
               />
             </a>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-8" aria-label="القائمة الرئيسية">
               {navLinks.map((link, index) => (
-                <a
+                <motion.a
                   key={index}
                   href={link.href}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 relative after:absolute after:bottom-[-2px] after:left-0 after:h-[1px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
                 >
                   {link.label}
-                </a>
+                </motion.a>
               ))}
             </nav>
 
-            {/* CTA Button */}
             <div className="hidden lg:block">
-              <Button
-                size="sm"
-                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded-lg h-10 px-5"
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
               >
-                <Download className="ml-2 h-4 w-4" />
-                تحميل التطبيق
-              </Button>
+                <Button
+                  size="sm"
+                  className="bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded-lg h-10 px-5 transition-all duration-300 hover:shadow-lg hover:shadow-secondary/20"
+                >
+                  <Download className="ml-2 h-4 w-4" />
+                  تحميل التطبيق
+                </Button>
+              </motion.div>
             </div>
 
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-foreground"
-              aria-label="Toggle menu"
+              className="lg:hidden p-2 text-foreground rounded-lg hover:bg-muted transition-colors focus-visible:outline-2 focus-visible:outline-primary/50"
+              aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
+              aria-expanded={isMobileMenuOpen}
             >
               {isMobileMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -91,47 +110,52 @@ export function Header() {
         </div>
       </motion.header>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 lg:hidden pt-20"
+            className="fixed inset-0 z-40 lg:hidden"
           >
             <div
               className="absolute inset-0 bg-background/90 backdrop-blur-md"
               onClick={() => setIsMobileMenuOpen(false)}
+              aria-hidden="true"
             />
-            <nav className="relative bg-card mx-4 mt-4 rounded-2xl p-6 space-y-1 border border-border/50 shadow-soft">
-              {navLinks.map((link, index) => (
-                <motion.a
-                  key={index}
-                  href={link.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.08 }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block py-3 px-4 text-foreground hover:bg-muted rounded-xl transition-colors"
-                >
-                  {link.label}
-                </motion.a>
-              ))}
+            <nav
+              className="relative bg-card mx-4 mt-20 rounded-2xl p-6 space-y-1 border border-border/50 shadow-elevated"
+              aria-label="القائمة الرئيسية"
+            >
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="pt-4"
+                variants={staggerContainer}
+                initial="hidden"
+                animate="visible"
               >
-                <Button
-                  size="lg"
-                  className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded-xl h-12"
+                {navLinks.map((link, index) => (
+                  <motion.a
+                    key={index}
+                    href={link.href}
+                    variants={fadeInDown}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block py-3 px-4 text-foreground hover:bg-muted rounded-xl transition-colors text-base"
+                  >
+                    {link.label}
+                  </motion.a>
+                ))}
+                <motion.div
+                  variants={fadeInDown}
+                  className="pt-4"
                 >
-                  <Download className="ml-2 h-5 w-5" />
-                  تحميل التطبيق
-                </Button>
+                  <Button
+                    size="lg"
+                    className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded-xl h-12 text-base"
+                  >
+                    <Download className="ml-2 h-5 w-5" />
+                    تحميل التطبيق
+                  </Button>
+                </motion.div>
               </motion.div>
             </nav>
           </motion.div>
