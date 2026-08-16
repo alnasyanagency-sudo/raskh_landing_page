@@ -13,8 +13,8 @@ export function Counter({ value, isInView }: { value: number; isInView: boolean 
   useEffect(() => {
     if (isInView && !hasAnimated.current) {
       hasAnimated.current = true
-      const duration = 1500
-      const steps = 60
+      const duration = 1000
+      const steps = 30
       const increment = value / steps
       let current = 0
       const timer = setInterval(() => {

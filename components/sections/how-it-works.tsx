@@ -31,13 +31,13 @@ export function HowItWorks() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="section-padding px-4 relative overflow-hidden bg-muted/30" id="how-it-works" aria-label="كيف يعمل">
+    <section ref={ref} className="section-padding px-4 relative overflow-hidden bg-muted/30 scroll-mt-20" id="how-it-works" aria-label="كيف يعمل">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.01] to-transparent pointer-events-none" />
       <div className="relative z-10 container mx-auto max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease }}
+          transition={{ duration: 0.4, ease }}
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-secondary/[0.06] border border-secondary/10 text-secondary text-sm mb-6">
@@ -52,13 +52,9 @@ export function HowItWorks() {
         </motion.div>
 
         <div className="relative">
-          {/* Animated connecting line */}
-          <motion.div
+          {/* Connecting line */}
+          <div
             className="absolute top-12 left-[15%] right-[15%] h-px bg-border hidden md:block"
-            initial={{ scaleX: 0 }}
-            animate={isInView ? { scaleX: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.3, ease }}
-            style={{ originX: 0.5 }}
           />
 
           <motion.div
@@ -84,7 +80,7 @@ export function HowItWorks() {
                   initial={{ scale: 0, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.35, delay: 0.15 + index * 0.1, ease }}
+                  transition={{ duration: 0.3, delay: 0.05 + index * 0.05, ease }}
                 >
                   {step.number}
                 </motion.div>

@@ -65,7 +65,7 @@ export function Trust() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="section-padding px-4 relative overflow-hidden bg-muted/30" id="trust" aria-label="الإحصائيات">
+    <section ref={ref} className="section-padding px-4 relative overflow-hidden bg-muted/30 scroll-mt-20" id="trust" aria-label="الإحصائيات">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.01] to-transparent pointer-events-none" />
       <div className="relative z-10 container mx-auto max-w-5xl">
         <motion.div
@@ -103,7 +103,7 @@ export function Trust() {
                 key={index}
                 initial={{ opacity: 0, y: 10 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.4, delay: 0.4 + index * 0.08, ease }}
+                transition={{ duration: 0.3, delay: 0.1 + index * 0.05, ease }}
                 className="flex items-center gap-3 px-5 py-3 rounded-xl bg-card border border-border/50 text-sm text-muted-foreground hover:text-foreground hover:border-primary/20 hover:shadow-subtle transition-all duration-300"
               >
                 <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-primary/[0.08] flex items-center justify-center text-primary">

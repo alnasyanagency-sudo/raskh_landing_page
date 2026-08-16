@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { MapPin, Phone, Mail } from "lucide-react"
 
 const quickLinks = [
@@ -11,8 +12,9 @@ const quickLinks = [
 ]
 
 const legalLinks = [
-  { label: "سياسة الخصوصية", href: "#" },
-  { label: "الشروط والأحكام", href: "#" },
+  { label: "السياسات والأنظمة", href: "/policies" },
+  { label: "سياسة الخصوصية", href: "/policies/client/privacy" },
+  { label: "شروط الاستخدام", href: "/policies/client/terms" },
 ]
 
 export function Footer() {
@@ -54,12 +56,12 @@ export function Footer() {
             <ul className="space-y-2.5">
               {legalLinks.map((link, index) => (
                 <li key={index}>
-                  <a
+                  <Link
                     href={link.href}
                     className="text-muted-foreground hover:text-foreground transition-colors text-sm hover:pr-1 transition-all"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

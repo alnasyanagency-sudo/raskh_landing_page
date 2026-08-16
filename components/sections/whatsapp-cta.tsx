@@ -11,7 +11,7 @@ export function WhatsappCTA() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="py-16 md:py-20 px-4 relative overflow-hidden bg-[#1C3522]" id="contact" aria-label="تواصل عبر واتساب">
+    <section ref={ref} className="py-16 md:py-20 px-4 relative overflow-hidden bg-[#1C3522] scroll-mt-20" id="contact" aria-label="تواصل عبر واتساب">
       {/* Subtle pattern overlay */}
       <div
         className="absolute inset-0 opacity-[0.03]"

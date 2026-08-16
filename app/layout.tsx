@@ -1,19 +1,12 @@
 import type { Metadata } from 'next'
-import { Tajawal, Amiri } from 'next/font/google'
+import { Tajawal } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const tajawal = Tajawal({
   subsets: ["arabic", "latin"],
-  weight: ["200", "300", "400", "500", "700", "800", "900"],
+  weight: ["400", "500", "700"],
   variable: "--font-tajawal",
-  display: "swap",
-})
-
-const amiri = Amiri({
-  subsets: ["arabic", "latin"],
-  weight: ["400", "700"],
-  variable: "--font-amiri",
   display: "swap",
 })
 
@@ -47,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" className="scroll-smooth">
-      <body className={`${tajawal.variable} ${amiri.variable} font-sans antialiased`}>
+      <body className={`${tajawal.variable} font-sans antialiased`}>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

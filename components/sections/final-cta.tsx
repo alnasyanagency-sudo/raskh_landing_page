@@ -107,16 +107,13 @@ export function FinalCTA() {
           {/* Right: Phone mockup */}
           <motion.div
             className="lg:col-span-2 flex justify-center lg:justify-end"
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 24 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.3, ease }}
+            transition={{ duration: 0.5, delay: 0.15, ease }}
           >
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.08] to-secondary/[0.05] blur-3xl rounded-full scale-150" />
-              <motion.div
-                animate={{ y: [-6, 6, -6] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              >
+              <div>
                 <div className="relative w-[180px] sm:w-[220px]">
                   <Image
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Iphone%2014-3nk8yMChdMeYm4ySQRl1wsx58ZhLm1.png"
@@ -125,19 +122,15 @@ export function FinalCTA() {
                     height={449}
                     className="w-full h-auto phone-shadow rounded-[1.5rem] sm:rounded-[2rem]"
                   />
-                  {/* Download count badge */}
-                  <motion.div
-                    className="absolute -bottom-3 -left-4 bg-card border border-border/50 rounded-[12px] px-3 py-2 shadow-soft"
-                    animate={{ y: [0, -4, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  >
+                  {/* Download count badge (static) */}
+                  <div className="absolute -bottom-3 -left-4 bg-card border border-border/50 rounded-[12px] px-3 py-2 shadow-soft">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-green-500" />
                       <span className="text-xs font-semibold text-foreground whitespace-nowrap">+10,000 مستخدم</span>
                     </div>
-                  </motion.div>
+                  </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         </div>

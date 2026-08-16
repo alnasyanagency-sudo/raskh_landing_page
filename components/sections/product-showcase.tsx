@@ -34,7 +34,7 @@ export function ProductShowcase() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease }}
+          transition={{ duration: 0.4, ease }}
           className="text-center mb-16 md:mb-20"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-secondary/[0.06] border border-secondary/10 text-secondary text-sm mb-6">
@@ -58,9 +58,7 @@ export function ProductShowcase() {
             <motion.div
               key={index}
               variants={fadeInUp}
-              className={`grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center ${
-                index % 2 === 1 ? "" : ""
-              }`}
+              className={`grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center`}
             >
               <motion.div
                 className={`relative flex justify-center ${index % 2 === 1 ? "lg:order-2" : ""}`}

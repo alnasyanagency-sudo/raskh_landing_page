@@ -10,7 +10,7 @@ import {
   Briefcase, 
   Shield 
 } from "lucide-react"
-import { ease, fadeInUp, staggerContainer, cardHover } from "@/lib/animations"
+import { ease, fadeInUp, staggerContainer } from "@/lib/animations"
 
 const services = [
   {
@@ -50,7 +50,7 @@ export function Services() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   return (
-    <section ref={ref} className="section-padding px-4 relative overflow-hidden" id="services" aria-label="الخدمات">
+    <section ref={ref} className="section-padding px-4 relative overflow-hidden scroll-mt-20" id="services" aria-label="الخدمات">
       {/* Background accent */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-br from-primary/[0.02] to-secondary/[0.02] blur-3xl pointer-events-none" />
 
@@ -58,7 +58,7 @@ export function Services() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease }}
+          transition={{ duration: 0.4, ease }}
           className="text-center mb-14"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-secondary/[0.06] border border-secondary/10 text-secondary text-sm mb-6">
@@ -84,19 +84,10 @@ export function Services() {
               variants={fadeInUp}
               className="group"
             >
-              <motion.div
-                initial="rest"
-                whileHover="hover"
-                variants={cardHover}
-                className="bg-card rounded-2xl p-6 h-full border border-border/50 hover:border-primary/20 transition-colors duration-300"
-              >
-                <motion.div
-                  className="w-12 h-12 rounded-xl bg-primary/[0.08] flex items-center justify-center mb-5 group-hover:bg-primary/[0.12] transition-colors duration-300"
-                  whileHover={{ scale: 1.08 }}
-                  transition={{ duration: 0.2, ease }}
-                >
+              <div className="bg-card rounded-2xl p-6 h-full border border-border/50 hover:border-primary/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover">
+                <div className="w-12 h-12 rounded-xl bg-primary/[0.08] flex items-center justify-center mb-5 group-hover:bg-primary/[0.12] group-hover:scale-105 transition-all duration-200">
                   <service.icon className="w-6 h-6 text-primary" />
-                </motion.div>
+                </div>
 
                 <h3 className="text-lg font-semibold mb-2 text-foreground">
                   {service.title}
@@ -104,7 +95,7 @@ export function Services() {
                 <p className="text-muted-foreground text-sm leading-relaxed">
                   {service.description}
                 </p>
-              </motion.div>
+              </div>
             </motion.div>
           ))}
         </motion.div>

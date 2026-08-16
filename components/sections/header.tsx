@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import { useRouter, usePathname } from "next/navigation"
 import { ease, fadeInDown, staggerContainer } from "@/lib/animations"
 
 const navLinks = [
@@ -15,9 +16,40 @@ const navLinks = [
   { label: "تواصل", href: "#contact" },
 ]
 
+function scrollToElement(id: string) {
+  const tick = (attempt: number) => {
+    const target = document.getElementById(id)
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" })
+      return
+    }
+    if (attempt < 120) requestAnimationFrame(() => tick(attempt + 1))
+  }
+  requestAnimationFrame(() => tick(0))
+}
+
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href === "#") {
+      e.preventDefault()
+      if (pathname === "/") {
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      } else {
+        router.push("/")
+      }
+      return
+    }
+
+    e.preventDefault()
+    const id = href.slice(1)
+    if (pathname !== "/") router.push("/")
+    scrollToElement(id)
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,9 +73,9 @@ export function Header() {
   return (
     <>
       <motion.header
-        initial={{ y: -100 }}
+        initial={{ y: -40 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease }}
+        transition={{ duration: 0.35, ease }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
             ? "bg-background/80 backdrop-blur-xl border-b border-border/50 py-3 shadow-subtle"
@@ -52,7 +84,12 @@ export function Header() {
       >
         <div className="container mx-auto max-w-5xl px-4 sm:px-6">
           <div className="flex items-center justify-between">
-            <a href="#" className="flex items-center shrink-0 focus-visible:outline-2 focus-visible:outline-primary/50 rounded-lg" aria-label="راسخ للمحاماة - الرئيسية">
+            <a
+              href="#"
+              onClick={(e) => handleNavClick(e, "#")}
+              className="flex items-center shrink-0 focus-visible:outline-2 focus-visible:outline-primary/50 rounded-lg"
+              aria-label="راسخ للمحاماة - الرئيسية"
+            >
               <Image
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image%2014-esr839iLrsk7x6ot2exVaXlePpnLLi.png"
                 alt="راسخ للمحاماة"
@@ -68,9 +105,10 @@ export function Header() {
                 <motion.a
                   key={index}
                   href={link.href}
-                  initial={{ opacity: 0, y: -10 }}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
+                  transition={{ duration: 0.3, delay: 0.05 + index * 0.03 }}
                   className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 relative after:absolute after:bottom-[-2px] after:left-0 after:h-[1px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
                 >
                   {link.label}
@@ -80,9 +118,9 @@ export function Header() {
 
             <div className="hidden lg:block">
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: 0.3 }}
+                transition={{ duration: 0.3, delay: 0.15 }}
               >
                 <Button
                   size="sm"
@@ -138,7 +176,10 @@ export function Header() {
                     key={index}
                     href={link.href}
                     variants={fadeInDown}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={(e) => {
+                      setIsMobileMenuOpen(false)
+                      handleNavClick(e, link.href)
+                    }}
                     className="block py-3 px-4 text-foreground hover:bg-muted rounded-xl transition-colors text-base"
                   >
                     {link.label}
