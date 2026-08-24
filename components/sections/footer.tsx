@@ -2,14 +2,28 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { MapPin, Phone, Mail } from "lucide-react"
+import { MapPin, Phone, Mail, MessageCircle } from "lucide-react"
+import { useRouter, usePathname } from "next/navigation"
 
 const quickLinks = [
-  { label: "الرئيسية", href: "#" },
+  { label: "الرئيسية", href: "/" },
   { label: "خدماتنا", href: "#services" },
   { label: "التطبيق", href: "#app" },
   { label: "كيف يعمل", href: "#how-it-works" },
+  { label: "تواصل معنا", href: "/contact" },
 ]
+
+function scrollToElement(id: string) {
+  const tick = (attempt: number) => {
+    const target = document.getElementById(id)
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" })
+      return
+    }
+    if (attempt < 120) requestAnimationFrame(() => tick(attempt + 1))
+  }
+  requestAnimationFrame(() => tick(0))
+}
 
 const legalLinks = [
   { label: "السياسات والأنظمة", href: "/policies" },
@@ -18,6 +32,31 @@ const legalLinks = [
 ]
 
 export function Footer() {
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const handleQuickLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("/")) {
+      // Let Next.js Link handle page navigation normally, but ensure correct behavior from any page
+      // For "/" we want scroll to top if already on home
+      if (href === "/" && pathname === "/") {
+        e.preventDefault()
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      }
+      return
+    }
+    if (href === "#") {
+      e.preventDefault()
+      if (pathname === "/") window.scrollTo({ top: 0, behavior: "smooth" })
+      else router.push("/")
+      return
+    }
+    e.preventDefault()
+    const id = href.slice(1)
+    if (pathname !== "/") router.push("/")
+    scrollToElement(id)
+  }
+
   return (
     <footer className="relative py-16 px-4 bg-muted/30 border-t border-border/50" aria-label="التذييل">
       <div className="container mx-auto max-w-5xl">
@@ -40,12 +79,23 @@ export function Footer() {
             <ul className="space-y-2.5">
               {quickLinks.map((link, index) => (
                 <li key={index}>
-                  <a
-                    href={link.href}
-                    className="text-muted-foreground hover:text-foreground transition-colors text-sm hover:pr-1 transition-all"
-                  >
-                    {link.label}
-                  </a>
+                  {link.href.startsWith("/") ? (
+                    <Link
+                      href={link.href}
+                      onClick={(e) => handleQuickLinkClick(e as unknown as React.MouseEvent<HTMLAnchorElement>, link.href)}
+                      className="text-muted-foreground hover:text-foreground transition-colors text-sm hover:pr-1 transition-all"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      onClick={(e) => handleQuickLinkClick(e, link.href)}
+                      className="text-muted-foreground hover:text-foreground transition-colors text-sm hover:pr-1 transition-all"
+                    >
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -76,11 +126,35 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Phone className="w-4 h-4 text-primary shrink-0" />
-                <span dir="ltr">+966 12 345 6789</span>
+                <a href="tel:+966541241344" dir="ltr" className="hover:text-foreground transition-colors">
+                  +966 54 124 1344
+                </a>
               </li>
               <li className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Mail className="w-4 h-4 text-primary shrink-0" />
-                <span>info@rasikh.sa</span>
+                <a href="mailto:info@alnasyan.com" className="hover:text-foreground transition-colors">
+                  info@alnasyan.com
+                </a>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-muted-foreground">
+                <MessageCircle className="w-4 h-4 text-[#25D366] shrink-0" />
+                <a
+                  href="https://wa.me/966541241344"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  dir="ltr"
+                  className="hover:text-foreground transition-colors"
+                >
+                  واتساب: +966 54 124 1344
+                </a>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                >
+                  تواصل معنا عبر النموذج ←
+                </Link>
               </li>
             </ul>
           </div>

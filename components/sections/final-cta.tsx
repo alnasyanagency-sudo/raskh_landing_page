@@ -97,8 +97,8 @@ export function FinalCTA() {
               </div>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <Phone className="w-3.5 h-3.5 text-primary" />
-                <a href="tel:+966123456789" dir="ltr" className="hover:text-foreground transition-colors">
-                  +966 12 345 6789
+                <a href="tel:+966541241344" dir="ltr" className="hover:text-foreground transition-colors">
+                  +966 54 124 1344
                 </a>
               </div>
             </motion.div>

@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 export function WhatsappFloat() {
   return (
     <motion.a
-      href="https://wa.me/966500000000"
+      href="https://wa.me/966541241344"
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 left-6 z-50 group"

@@ -9,11 +9,11 @@ import { useRouter, usePathname } from "next/navigation"
 import { ease, fadeInDown, staggerContainer } from "@/lib/animations"
 
 const navLinks = [
-  { label: "الرئيسية", href: "#" },
+  { label: "الرئيسية", href: "/" },
   { label: "المميزات", href: "#services" },
   { label: "كيف يعمل", href: "#how-it-works" },
   { label: "الأسئلة الشائعة", href: "#faq" },
-  { label: "تواصل", href: "#contact" },
+  { label: "تواصل معنا", href: "/contact" },
 ]
 
 function scrollToElement(id: string) {
@@ -35,6 +35,22 @@ export function Header() {
   const pathname = usePathname()
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    // Page navigation (e.g. /contact, /)
+    if (href.startsWith("/")) {
+      e.preventDefault()
+      if (href === "/") {
+        if (pathname === "/") {
+          window.scrollTo({ top: 0, behavior: "smooth" })
+        } else {
+          router.push("/")
+        }
+      } else {
+        router.push(href)
+      }
+      return
+    }
+
+    // Anchor links (#services, #how-it-works, ...)
     if (href === "#") {
       e.preventDefault()
       if (pathname === "/") {
@@ -85,8 +101,8 @@ export function Header() {
         <div className="container mx-auto max-w-5xl px-4 sm:px-6">
           <div className="flex items-center justify-between">
             <a
-              href="#"
-              onClick={(e) => handleNavClick(e, "#")}
+              href="/"
+              onClick={(e) => handleNavClick(e, "/")}
               className="flex items-center shrink-0 focus-visible:outline-2 focus-visible:outline-primary/50 rounded-lg"
               aria-label="راسخ للمحاماة - الرئيسية"
             >
