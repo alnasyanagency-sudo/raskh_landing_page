@@ -1,15 +1,11 @@
-import { Header } from "@/components/sections/header"
-import { Footer } from "@/components/sections/footer"
+import { Header } from "@/components/site/header"
+import { Footer } from "@/components/site/footer"
 
-export default function PoliciesLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function PoliciesLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-background" role="main">
+      <main id="main" className="min-h-screen bg-ivory">
         {children}
       </main>
       <Footer />

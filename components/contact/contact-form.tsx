@@ -95,7 +95,9 @@ ${message.trim()}`
   }
 
   return (
-    <div className="bg-card rounded-2xl border border-border/50 shadow-card p-6 md:p-8">
+    <div className="rounded-[2rem] bg-white p-6 shadow-panel ring-1 ring-black/[0.04] sm:p-8 md:p-10">
+      <h2 className="text-xl font-extrabold text-ink md:text-2xl">أرسل رسالتك</h2>
+      <p className="mt-2 mb-8 text-[15px] leading-7 text-ink-soft">سيتم تجهيز رسالتك وإرسالها إلى فريق راسخ عبر واتساب.</p>
       <form onSubmit={handleSubmit} noValidate className="space-y-5">
         {/* Name */}
         <div className="space-y-2">
@@ -109,7 +111,7 @@ ${message.trim()}`
             value={name}
             onChange={(e) => setName(e.target.value)}
             aria-invalid={!!errors.name}
-            className={errors.name ? "border-destructive focus-visible:ring-destructive/20" : ""}
+            className={`h-12 rounded-xl bg-ivory px-4 text-[15px] ${errors.name ? "border-destructive focus-visible:ring-destructive/20" : ""}`}
             autoComplete="name"
           />
           {errors.name && (
@@ -133,7 +135,7 @@ ${message.trim()}`
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               aria-invalid={!!errors.email}
-              className={errors.email ? "border-destructive focus-visible:ring-destructive/20 text-left" : "text-left"}
+              className={`h-12 rounded-xl bg-ivory px-4 text-left text-[15px] ${errors.email ? "border-destructive focus-visible:ring-destructive/20" : ""}`}
               dir="ltr"
               autoComplete="email"
             />
@@ -156,7 +158,7 @@ ${message.trim()}`
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               aria-invalid={!!errors.phone}
-              className={errors.phone ? "border-destructive focus-visible:ring-destructive/20 text-left" : "text-left"}
+              className={`h-12 rounded-xl bg-ivory px-4 text-left text-[15px] ${errors.phone ? "border-destructive focus-visible:ring-destructive/20" : ""}`}
               dir="ltr"
               autoComplete="tel"
             />
@@ -178,7 +180,7 @@ ${message.trim()}`
             <SelectTrigger
               id="contact-type"
               aria-invalid={!!errors.requestType}
-              className={`w-full h-9 bg-transparent ${errors.requestType ? "border-destructive focus:ring-destructive/20" : ""}`}
+              className={`w-full h-12! rounded-xl bg-ivory px-4 text-[15px] ${errors.requestType ? "border-destructive focus:ring-destructive/20" : ""}`}
             >
               <SelectValue placeholder="اختر نوع الطلب" />
             </SelectTrigger>
@@ -214,7 +216,7 @@ ${message.trim()}`
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             aria-invalid={!!errors.message}
-            className={`min-h-[140px] resize-none ${errors.message ? "border-destructive focus-visible:ring-destructive/20" : ""}`}
+            className={`min-h-[140px] resize-none rounded-xl bg-ivory px-4 py-3 text-[15px] leading-7 ${errors.message ? "border-destructive focus-visible:ring-destructive/20" : ""}`}
             rows={5}
           />
           {errors.message && (
@@ -226,13 +228,13 @@ ${message.trim()}`
         </div>
 
         {/* Submit */}
-        <Button type="submit" size="lg" className="w-full h-12 text-base font-semibold rounded-xl">
+        <Button type="submit" size="lg" className="h-12 w-full rounded-full bg-green text-base font-bold text-white transition-[background-color,transform] duration-300 hover:bg-green-mid active:scale-[0.98]">
           إرسال
         </Button>
 
         {showSuccess && (
-          <div className="flex items-start gap-3 rounded-xl bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900 p-4 text-sm leading-relaxed text-green-800 dark:text-green-200">
-            <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-green-600 dark:text-green-400" />
+          <div role="status" className="flex items-start gap-3 rounded-xl border border-green-200 bg-green-50 p-4 text-sm leading-relaxed text-green-800">
+            <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-green-600" aria-hidden="true" />
             <p>تم تجهيز طلبك، سيتم تحويلك إلى WhatsApp لإرساله إلى فريق راسخ.</p>
           </div>
         )}

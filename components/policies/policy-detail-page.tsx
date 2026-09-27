@@ -1,139 +1,127 @@
 import Link from "next/link"
-import { ArrowRight, CalendarDays, ListTree, UserRound } from "lucide-react"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+import { ArrowRight, CalendarDays, UserRound } from "lucide-react"
 import { PolicySection } from "@/components/policies/policy-section"
 import { PolicyReaderBar } from "@/components/policies/policy-reader-bar"
-import { POLICY_CATEGORIES, type PolicyData } from "@/lib/policies-data"
+import { POLICY_CATEGORIES, getPoliciesByCategory, type PolicyData } from "@/lib/policies-data"
+import { BrandArcs } from "@/components/brand/arcs"
 
 export function PolicyDetailPage({ policy }: { policy: PolicyData }) {
   const Icon = policy.icon
   const { badge } = POLICY_CATEGORIES[policy.category]
-
-  const sectionLinks = policy.sections.map((section) => ({
-    id: section.id,
-    title: section.title,
-  }))
+  const siblings = getPoliciesByCategory(policy.category).filter((p) => p.slug !== policy.slug)
+  const showToc = policy.sections.length > 1
 
   return (
     <>
       <PolicyReaderBar />
 
-      <section className="relative overflow-hidden pt-32 md:pt-36 pb-16 md:pb-24 px-4" aria-label={policy.title}>
-        {/* Ambient gradient orbs */}
-        <div
-          className="absolute top-24 -left-40 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary/[0.05] via-transparent to-transparent blur-3xl pointer-events-none"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute bottom-10 -right-40 w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-secondary/[0.04] via-transparent to-transparent blur-3xl pointer-events-none"
-          aria-hidden="true"
-        />
+      <section aria-labelledby="policy-title" className="relative isolate overflow-hidden bg-brand-green pt-32 pb-24 text-white md:pt-40 md:pb-32">
+        <BrandArcs className="absolute inset-0 -z-10 h-full w-full" opacity={0.22} />
+        <div className="container-page">
+          <nav aria-label="مسار التنقل" className="text-sm text-white/60">
+            <ol className="flex flex-wrap items-center gap-2">
+              <li>
+                <Link href="/" className="transition-colors hover:text-white">
+                  الرئيسية
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li>
+                <Link href="/policies" className="transition-colors hover:text-white">
+                  السياسات والأنظمة
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li aria-current="page" className="text-white/85">
+                {policy.title}
+              </li>
+            </ol>
+          </nav>
 
-        <div className="container mx-auto max-w-5xl relative z-10">
-          {/* Breadcrumb */}
-          <Breadcrumb className="mb-8">
-            <BreadcrumbList className="flex-wrap">
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild className="hover:text-foreground transition-colors text-sm">
-                  <Link href="/">الرئيسية</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild className="hover:text-foreground transition-colors text-sm">
-                  <Link href="/policies">السياسات والأنظمة</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage className="text-sm">{policy.title}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-
-          {/* Page header */}
-          <header className="mb-10 md:mb-12">
-            <div className="flex items-start gap-4 md:gap-5">
-              <span className="w-14 h-14 md:w-16 md:h-16 shrink-0 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center shadow-card">
-                <Icon className="w-7 h-7 md:w-8 md:h-8" aria-hidden="true" />
-              </span>
-              <div className="min-w-0">
-                <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground leading-[1.3] text-balance mb-4">
-                  {policy.title}
-                </h1>
-                <div className="flex flex-wrap items-center gap-2.5 text-sm">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary font-medium">
-                    <UserRound className="w-3.5 h-3.5" aria-hidden="true" />
-                    المستخدم: {badge}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted text-muted-foreground font-medium">
-                    <CalendarDays className="w-3.5 h-3.5" aria-hidden="true" />
-                    آخر تحديث: {policy.lastUpdated}
-                  </span>
-                </div>
+          <div className="mt-10 flex items-start gap-5">
+            <span className="hidden size-16 shrink-0 place-items-center rounded-2xl bg-white/10 text-gold-light ring-1 ring-white/15 sm:grid">
+              <Icon className="size-7" aria-hidden="true" />
+            </span>
+            <div className="min-w-0">
+              <h1 id="policy-title" className="text-[clamp(1.875rem,2.6vw+1rem,3.25rem)] leading-[1.3] font-extrabold">
+                {policy.title}
+              </h1>
+              <p className="mt-4 max-w-2xl text-[17px] leading-8 text-white/75">{policy.description}</p>
+              <div className="mt-6 flex flex-wrap items-center gap-2.5 text-sm">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-1.5 font-medium text-white ring-1 ring-white/15">
+                  <UserRound className="size-3.5" aria-hidden="true" />
+                  المستخدم: {badge}
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-1.5 font-medium text-white ring-1 ring-white/15">
+                  <CalendarDays className="size-3.5" aria-hidden="true" />
+                  آخر تحديث: {policy.lastUpdated}
+                </span>
               </div>
             </div>
-          </header>
+          </div>
+        </div>
+      </section>
 
-          <div className="grid lg:grid-cols-[280px_1fr] gap-8 lg:gap-12 items-start">
-            {/* Table of contents - desktop sidebar */}
-            <aside
-              className="hidden lg:block sticky top-28"
-              aria-label="محتويات الصفحة"
-            >
-              <nav className="bg-card rounded-2xl border border-border/50 shadow-card p-5">
-                <h2 className="flex items-center gap-2 text-sm font-bold text-foreground mb-4">
-                  <ListTree className="w-4 h-4 text-primary" aria-hidden="true" />
-                  محتويات الصفحة
-                </h2>
-                <ul className="space-y-1">
-                  {sectionLinks.map((section, index) => (
+      <div className="relative z-10 -mt-12 pb-24 md:-mt-16 md:pb-32">
+        <div className={`container-page grid items-start gap-8 ${showToc ? "lg:grid-cols-[280px_1fr] lg:gap-12" : ""}`}>
+          {showToc && (
+            <aside aria-label="محتويات الصفحة" className="sticky top-28 hidden lg:block">
+              <nav className="rounded-[1.75rem] bg-white p-6 shadow-panel ring-1 ring-black/[0.04]">
+                <h2 className="mb-4 text-sm font-bold text-ink">محتويات الصفحة</h2>
+                <ol className="space-y-0.5">
+                  {policy.sections.map((section, index) => (
                     <li key={section.id}>
                       <a
                         href={`#${section.id}`}
-                        className="flex items-start gap-2.5 text-sm text-muted-foreground hover:text-primary transition-colors duration-200 rounded-lg py-1.5 px-2 hover:bg-primary/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/50"
+                        className="flex items-start gap-3 rounded-xl px-2.5 py-2 text-sm leading-6 text-ink-soft transition-colors duration-200 hover:bg-ivory hover:text-green"
                       >
-                        <span
-                          className="text-xs font-bold text-secondary mt-0.5 shrink-0 tabular-nums"
-                          aria-hidden="true"
-                        >
+                        <span className="mt-px shrink-0 text-xs font-bold text-gold-deep tabular-nums" aria-hidden="true">
                           {String(index + 1).padStart(2, "0")}
                         </span>
                         {section.title}
                       </a>
                     </li>
                   ))}
-                </ul>
+                </ol>
               </nav>
             </aside>
+          )}
 
-            {/* Policy content */}
-            <article className="min-w-0 space-y-10 md:space-y-12">
-              {policy.sections.map((section) => (
-                <PolicySection key={section.id} section={section} />
+          <article className="min-w-0 rounded-[2rem] bg-white p-6 shadow-panel ring-1 ring-black/[0.04] sm:p-10 md:p-12">
+            <div className="space-y-10 md:space-y-12">
+              {policy.sections.map((section, index) => (
+                <PolicySection key={section.id} section={section} index={index} />
               ))}
-            </article>
-          </div>
+            </div>
+          </article>
+        </div>
 
-          {/* Back button */}
-          <div className="mt-12 md:mt-16 pt-8 border-t border-border/50">
+        <div className="container-page mt-12 md:mt-16">
+          <div className="flex flex-col gap-6 border-t border-hairline pt-8 md:flex-row md:items-center md:justify-between">
             <Link
               href="/policies"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-border bg-card text-sm font-semibold text-foreground hover:bg-accent hover:text-accent-foreground transition-all duration-300 hover:-translate-y-0.5 shadow-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary/50"
+              className="group inline-flex items-center gap-2 self-start rounded-full bg-white px-5 py-3 text-[15px] font-bold text-ink shadow-panel ring-1 ring-black/[0.04] transition-transform duration-300 hover:-translate-y-0.5"
             >
-              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
               العودة إلى السياسات والأنظمة
             </Link>
+            {siblings.length > 0 && (
+              <nav aria-label="سياسات ذات صلة" className="flex flex-wrap items-center gap-2">
+                <span className="me-1 text-sm text-ink-soft">اقرأ أيضًا:</span>
+                {siblings.map((p) => (
+                  <Link
+                    key={p.slug}
+                    href={`/policies/${p.category}/${p.slug}`}
+                    className="rounded-full border border-border bg-white px-4 py-2 text-sm font-medium text-ink-soft transition-colors hover:border-gold/50 hover:text-green"
+                  >
+                    {p.title}
+                  </Link>
+                ))}
+              </nav>
+            )}
           </div>
         </div>
-      </section>
+      </div>
     </>
   )
 }

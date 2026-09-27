@@ -1,112 +1,61 @@
-"use client"
-
-import { motion } from "framer-motion"
-import { UserRound, Scale } from "lucide-react"
+import { Scale, UserRound } from "lucide-react"
 import { PolicyCard } from "@/components/policies/policy-card"
-import {
-  POLICY_CATEGORIES,
-  getPoliciesByCategory,
-  type PolicyCategory,
-} from "@/lib/policies-data"
-import { ease, fadeInUp, staggerContainer } from "@/lib/animations"
+import { POLICY_CATEGORIES, POLICIES_PAGE_META, getPoliciesByCategory, type PolicyCategory } from "@/lib/policies-data"
+import { BrandArcs } from "@/components/brand/arcs"
+import { Eyebrow } from "@/components/site/eyebrow"
 
-function CategoryGroup({
-  category,
-}: {
-  category: PolicyCategory
-}) {
+const GROUP_COPY: Record<PolicyCategory, string> = {
+  client: "السياسات الخاصة بالمستفيدين من الخدمات القانونية",
+  lawyer: "السياسات الخاصة بالمحامين المسجلين في المنصة",
+}
+
+function CategoryGroup({ category }: { category: PolicyCategory }) {
   const policies = getPoliciesByCategory(category)
-  const { label } = POLICY_CATEGORIES[category]
-  const CategoryIcon = category === "client" ? UserRound : Scale
-
+  const Icon = category === "client" ? UserRound : Scale
   return (
-    <motion.div
-      variants={fadeInUp}
-      className="mb-14 last:mb-0"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-60px" }}
-    >
-      <div className="flex items-center gap-3 mb-7">
-        <span className="w-11 h-11 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center shrink-0">
-          <CategoryIcon className="w-5 h-5" aria-hidden="true" />
+    <section aria-labelledby={`group-${category}`} className="rounded-[2rem] bg-white p-6 shadow-panel ring-1 ring-black/[0.04] sm:p-8 md:p-10">
+      <header className="flex items-center gap-4 border-b border-hairline pb-6">
+        <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-green text-gold-light">
+          <Icon className="size-5" aria-hidden="true" />
         </span>
         <div>
-          <h2 className="text-xl md:text-2xl font-bold text-foreground leading-tight">
-            {label}
+          <h2 id={`group-${category}`} className="text-xl leading-8 font-extrabold text-ink md:text-2xl">
+            {POLICY_CATEGORIES[category].label}
           </h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            {category === "client"
-              ? "السياسات الخاصة بالمستفيدين من الخدمات القانونية"
-              : "السياسات الخاصة بالمحامين المسجلين في المنصة"}
-          </p>
+          <p className="mt-0.5 text-sm leading-6 text-ink-soft">{GROUP_COPY[category]}</p>
         </div>
-      </div>
-
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-        {policies.map((policy) => (
-          <PolicyCard key={`${policy.category}-${policy.slug}`} policy={policy} />
+      </header>
+      <ul className="mt-3 divide-y divide-hairline">
+        {policies.map((p, i) => (
+          <li key={`${p.category}-${p.slug}`}>
+            <PolicyCard policy={p} index={i} />
+          </li>
         ))}
-      </div>
-    </motion.div>
+      </ul>
+    </section>
   )
 }
 
 export function PoliciesPage() {
   return (
-    <section className="relative overflow-hidden pt-32 md:pt-40 pb-20 md:pb-28 px-4" aria-label="السياسات والأنظمة">
-      {/* Ambient gradient orbs */}
-      <div
-        className="absolute top-20 -left-40 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-primary/[0.05] via-transparent to-transparent blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute bottom-20 -right-40 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-secondary/[0.04] via-transparent to-transparent blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-gradient-to-br from-primary/[0.02] to-transparent blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
+    <>
+      <section aria-labelledby="policies-title" className="relative isolate overflow-hidden bg-brand-green pt-36 pb-28 text-white md:pt-44 md:pb-36">
+        <BrandArcs className="absolute inset-0 -z-10 h-full w-full" opacity={0.25} />
+        <div className="container-page">
+          <Eyebrow tone="dark">راسخ</Eyebrow>
+          <h1 id="policies-title" className="mt-6 text-[clamp(2.25rem,3.6vw+1rem,4rem)] leading-[1.25] font-extrabold">
+            السياسات <span className="text-gold-light">والأنظمة</span>
+          </h1>
+          <p className="text-lead mt-5 max-w-2xl text-white/75">{POLICIES_PAGE_META.description}</p>
+        </div>
+      </section>
 
-      <div className="container mx-auto max-w-5xl relative z-10">
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={staggerContainer}
-          className="text-center mb-16 md:mb-20"
-        >
-          <motion.span
-            variants={fadeInUp}
-            className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-5"
-          >
-            السياسات والأنظمة
-          </motion.span>
-          <motion.h1
-            variants={fadeInUp}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 text-balance"
-          >
-            السياسات <span className="text-gold-gradient">والأنظمة</span>
-          </motion.h1>
-          <motion.p
-            variants={fadeInUp}
-            className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
-          >
-            اطّلع على سياسات وشروط استخدام منصة راسخ لضمان تجربة واضحة وآمنة
-            لجميع المستخدمين.
-          </motion.p>
-        </motion.div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-          variants={staggerContainer}
-        >
+      <div className="relative z-10 -mt-16 pb-24 md:-mt-20 md:pb-32">
+        <div className="container-page grid items-start gap-6 lg:grid-cols-2 lg:gap-8">
           <CategoryGroup category="client" />
           <CategoryGroup category="lawyer" />
-        </motion.div>
+        </div>
       </div>
-    </section>
+    </>
   )
 }

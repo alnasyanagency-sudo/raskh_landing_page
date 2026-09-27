@@ -26,11 +26,12 @@ export async function generateMetadata({
   if (!policy) return {}
 
   return {
-    title: policy.metaTitle,
+    title: { absolute: policy.metaTitle },
     description: policy.metaDescription,
     alternates: {
       canonical: `/policies/${category}/${slug}`,
     },
+    openGraph: { url: `/policies/${category}/${slug}`, title: policy.metaTitle, description: policy.metaDescription },
   }
 }
 
