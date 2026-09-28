@@ -12,7 +12,7 @@ export const SITE = {
 export const CONTACT = {
   phone: "+966541241344",
   phoneDisplay: "+966 54 124 1344",
-  email: "info@alnasyan.com",
+  email: "info@rasikh.aldhakii.com",
   whatsapp: "https://wa.me/966541241344",
 } as const
 
@@ -41,14 +41,15 @@ export const LEGAL_LINKS = [
   { label: "الإلغاء والاسترداد", href: "/policies/client/refund" },
 ] as const
 
-/** Real screens cropped from the official App Store creatives. */
+/** Real app screens — official WebP exports (430×932), served as-is. */
 export const SCREENS = {
-  home: { src: "/app/screen-home.webp", width: 798, height: 1740, alt: "الشاشة الرئيسية في تطبيق راسخ: محامون متخصصون في كل المجالات واستشارات قانونية احترافية" },
-  lawyers: { src: "/app/screen-lawyers.webp", width: 798, height: 1740, alt: "شاشة اختيار المحامي في تطبيق راسخ: سنوات الخبرة والتخصص وسعر الاستشارة والتقييم" },
-  video: { src: "/app/screen-video.webp", width: 762, height: 1661, alt: "شاشة الاستشارة الفورية بالفيديو في تطبيق راسخ" },
-  account: { src: "/app/screen-account.webp", width: 798, height: 1740, alt: "شاشة الحساب في تطبيق راسخ: البيانات الشخصية والمحفظة الإلكترونية والإشعارات والدعم" },
-  splash: { src: "/app/screen-splash.webp", width: 762, height: 1661, alt: "شاشة البداية في تطبيق راسخ بشعار راسخ للمحاماة والاستشارات القانونية" },
-  privacy: { src: "/app/screen-privacy.webp", width: 798, height: 1740, alt: "شاشة التعريف في تطبيق راسخ: حماية خصوصيتك أولويتنا" },
+  home: { src: "/app/screen-home.webp", width: 430, height: 932, alt: "الشاشة الرئيسية في تطبيق راسخ: محامون متخصصون في كل المجالات واستشارات قانونية احترافية" },
+  lawyers: { src: "/app/screen-lawyers.webp", width: 430, height: 932, alt: "شاشة اختيار المحامي في تطبيق راسخ: سنوات الخبرة والتخصص وسعر الاستشارة والتقييم" },
+  video: { src: "/app/screen-video.webp", width: 430, height: 932, alt: "شاشة الاستشارة الفورية بالفيديو في تطبيق راسخ" },
+  account: { src: "/app/screen-account.webp", width: 430, height: 932, alt: "شاشة الحساب في تطبيق راسخ: البيانات الشخصية والمحفظة الإلكترونية والإشعارات والدعم" },
+  splash: { src: "/app/screen-splash.webp", width: 430, height: 932, alt: "شاشة البداية في تطبيق راسخ بشعار راسخ للمحاماة والاستشارات القانونية" },
+  privacy: { src: "/app/screen-privacy.webp", width: 430, height: 932, alt: "شاشة التعريف في تطبيق راسخ: حماية خصوصيتك أولويتنا" },
+  payment: { src: "/app/screen-payment.webp", width: 430, height: 932, alt: "شاشة الدفع في تطبيق راسخ: تفاصيل الخدمة والفاتورة وطرق الدفع المتاحة" },
 } as const
 
 export type ScreenKey = keyof typeof SCREENS

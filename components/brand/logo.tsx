@@ -9,8 +9,8 @@ export function Logo({ className, priority = false }: { className?: string; prio
       alt="راسخ للمحاماة والاستشارات القانونية"
       width={460}
       height={183}
-      priority={priority}
-      sizes="220px"
+      preload={priority}
+      sizes="150px"
       className={cn("h-10 w-auto", className)}
     />
   )

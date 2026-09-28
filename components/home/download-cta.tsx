@@ -39,7 +39,7 @@ export function DownloadCTA() {
               حمّل تطبيق راسخ الآن واحصل على استشارتك القانونية من محامين مرخّصين في المملكة العربية السعودية.
             </motion.p>
             <motion.div variants={rise}>
-              <StoreBadges variant="light" className="mt-9 justify-center lg:justify-start" />
+              <StoreBadges className="mt-9 justify-center lg:justify-start" badgeClassName="h-11 sm:h-12" />
             </motion.div>
             <motion.div variants={rise} className="mt-10 border-t border-white/10 pt-8">
               <a

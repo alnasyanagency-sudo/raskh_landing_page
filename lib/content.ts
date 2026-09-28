@@ -51,8 +51,7 @@ export const EXPERIENCE_STEPS: readonly ExperienceStep[] = [
     id: "book",
     title: "احجز استشارتك",
     body: "اطلب استشارة فورية أو كتابية أو مجدولة بضغطة واحدة، وتتم جميع عمليات الدفع بأمان من داخل التطبيق.",
-    screen: "lawyers",
-    focus: { x: 50, y: 46, scale: 1.6 },
+    screen: "payment",
   },
   {
     id: "connect",

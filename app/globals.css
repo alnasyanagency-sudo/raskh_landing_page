@@ -2,6 +2,8 @@
 @import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
+/* short desktop windows (e.g. laptops with browser chrome / zoom) */
+@custom-variant short (@media (max-height: 720px));
 
 /* ---------------------------------------------------------------
    Rasikh brand tokens

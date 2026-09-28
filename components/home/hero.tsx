@@ -79,11 +79,7 @@ export function Hero() {
 
           <div className="hero-in mt-7 sm:mt-10" style={delay(420)}>
             <p className="mb-4 hidden text-sm font-bold text-gold-light sm:block">حمّل تطبيق راسخ</p>
-            <StoreBadges
-              variant="light"
-              className="mx-auto grid max-w-[22rem] grid-cols-2 gap-2.5 sm:flex sm:max-w-none sm:justify-center sm:gap-3 lg:justify-start"
-              itemClassName="w-full sm:w-auto"
-            />
+            <StoreBadges className="justify-center gap-2.5 sm:gap-3 lg:justify-start" badgeClassName="h-11 sm:h-12" />
           </div>
 
         </motion.div>

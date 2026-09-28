@@ -182,7 +182,7 @@ function MobileDrawer({
                     <p className="mt-0.5 text-sm text-white/70">استشاراتك القانونية بين يديك</p>
                   </div>
                 </div>
-                <StoreBadges variant="light" size="md" className="mt-5 grid grid-cols-1 gap-2 min-[400px]:grid-cols-2" itemClassName="w-full" />
+                <StoreBadges className="mt-5 gap-2" badgeClassName="h-10" />
               </div>
 
               <a

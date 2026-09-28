@@ -21,7 +21,7 @@ export function Footer() {
             <p className="mt-5 max-w-xs text-[15px] leading-8 text-ink-soft">{SITE.tagline}</p>
             <div className="mt-7">
               <p className="mb-3 text-sm font-bold text-ink">حمّل تطبيق راسخ</p>
-              <StoreBadges size="md" />
+              <StoreBadges badgeClassName="h-10" />
             </div>
           </div>
 
